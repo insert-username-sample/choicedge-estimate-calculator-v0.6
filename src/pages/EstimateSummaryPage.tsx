@@ -200,9 +200,9 @@ function EstimateSummaryPage() {
     } else if (state.rooms) {
       state.rooms.forEach((room: Room) => {
         const rate = state.category === 'standard' ? 1550 : state.category === 'premium' ? 2430 : 3560;
-          constructionCost += parseFloat(room.carpetArea) * rate;
-        });
-      }
+        constructionCost += parseFloat(room.carpetArea) * rate;
+      });
+    }
     
     // Calculate design charges as 8% of construction cost
     const designCharges = constructionCost * 0.08;
@@ -226,12 +226,15 @@ function EstimateSummaryPage() {
       return;
     }
 
-    // Add logo to the beginning of the element
+    // Clone the element to avoid modifying the original page
+    const elementClone = element.cloneNode(true) as HTMLElement;
+
+    // Add logo to the beginning of the cloned element
     const logoImg = document.createElement('img');
     logoImg.src = "https://github.com/insert-username-sample/choicedge-estimate-calculator-v0.6/blob/main/choicedge-logo.png?raw=true";
     logoImg.style.width = '150px';
     logoImg.style.marginBottom = '20px';
-    element.insertBefore(logoImg, element.firstChild);
+    elementClone.insertBefore(logoImg, elementClone.firstChild);
 
     const opt = {
       margin: 1,
@@ -242,7 +245,7 @@ function EstimateSummaryPage() {
     };
 
     try {
-      await html2pdf().from(element).set(opt).save();
+      await html2pdf().from(elementClone).set(opt).save();
     } catch (error) {
       console.error('Error generating PDF:', error);
       alert('Failed to generate PDF. Please check the console for details.');
