@@ -6,7 +6,7 @@ function Header() {
     <header className="bg-white shadow-md py-3 px-6 flex items-center justify-between">
       {/* Logo on the left */}
       <Link to="/">
-        <img src="https://github.com/insert-username-sample/choicedge-estimate-calculator-v0.6/blob/main/choicedge-logo.png?raw=true" alt="Choicedge Logo" className="h-16 w-auto object-contain" />
+        <img src="/choicedge-logo.png" alt="Choicedge Logo" className="h-16 w-auto object-contain" />
       </Link>
 
       {/* Navigation Links on the right */}

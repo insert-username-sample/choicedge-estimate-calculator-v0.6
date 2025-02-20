@@ -231,7 +231,7 @@ function EstimateSummaryPage() {
 
     // Add logo to the beginning of the cloned element
     const logoImg = document.createElement('img');
-    logoImg.src = "https://github.com/insert-username-sample/choicedge-estimate-calculator-v0.6/blob/main/choicedge-logo.png?raw=true";
+    logoImg.src = "/choicedge-logo.png";
     logoImg.style.width = '150px';
     logoImg.style.marginBottom = '20px';
     elementClone.insertBefore(logoImg, elementClone.firstChild);
