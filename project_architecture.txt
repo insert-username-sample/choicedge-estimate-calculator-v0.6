@@ -1,0 +1,347 @@
+... (previous content) ...
+    │   │   │           }
+    │   │   │         )
+    │   │   │       };
+    │   │   │       
+    │   │   │       navigate('/estimate-summary', { state: estimateData });
+    │   │   │     };
+    │   │   │
+    │   │   │     return (
+    │   │   │       <Layout>
+    │   │   │         {/* Header */}
+    │   │   │         <header className="p-6 flex justify-between items-center">
+    │   │   │           <div className="flex items-center space-x-4">
+    │   │   │             <button 
+    │   │   │               onClick={() => navigate(-1)}
+    │   │   │               className="text-gray-600 hover:text-[#9c8b75] transition-colors flex items-center space-x-2"
+    │   │   │             >
+    │   │   │               <ArrowLeft className="w-5 h-5" />
+    │   │   │               <span>Back</span>
+    │   │   │             </button>
+    │   │   │             <img 
+    │   │   │               src="/choicedge-logo.png" 
+    │   │   │               alt="Choicedge Logo" 
+    │   │   │               className="h-12 w-auto logo"
+    │   │   │             />
+    │   │   │           </div>
+    │   │   │           <button className="text-gray-600 hover:text-[#9c8b75] transition-colors">
+    │   │   │             History
+    │   │   │           </button>
+    │   │   │         </header>
+    │   │   │
+    │   │   │         {/* Main Content */}
+    │   │   │         <main className="max-w-4xl mx-auto px-4 py-12">
+    │   │   │           <div className="text-center mb-12">
+    │   │   │             <h1 className="text-3xl md:text-4xl font-bold text-gray-800 mb-2">
+    │   │   │               {isVilla ? 'Customize Your Villa Layout' : 'Enter Carpet Area Details'}
+    │   │   │             </h1>
+    │   │   │             <p className="text-gray-600">
+    │   │   │               {isVilla 
+    │   │   │                 ? 'Define floors and add custom details for each floor'
+    │   │   │                 : 'Choose how you would like to specify the carpet area below'
+    │   │   │               }
+    │   │   │             </p>
+    │   │   │           </div>
+    │   │   │
+    │   │   │           {!isVilla ? (
+    │   │   │             <>
+    │   │   │               {/* Area Option Toggle */}
+    │   │   │               <div className="flex justify-center mb-12">
+    │   │   │                 <div className="bg-gray-100 p-1 rounded-lg inline-flex">
+    │   │   │                   <button
+    │   │   │                     onClick={() => setAreaOption('total')}
+    │   │   │                     className={`
+    │   │   │                       px-6 py-2 rounded-md font-medium transition-all duration-300
+    │   │   │                       ${areaOption === 'total'
+    │   │   │                         ? 'bg-white text-gray-800 shadow-sm'
+    │   │   │                         : 'text-gray-600 hover:text-gray-800'
+    │   │   │                       }
+    │   │   │                     `}
+    │   │   │                   >
+    │   │   │                     Complete Carpet Area
+    │   │   │                   </button>
+    │   │   │                   <button
+    │   │   │                     onClick={() => setAreaOption('rooms')}
+    │   │   │                     className={`
+    │   │   │                       px-6 py-2 rounded-md font-medium transition-all duration-300
+    │   │   │                       ${areaOption === 'rooms'
+    │   │   │                         ? 'bg-white text-gray-800 shadow-sm'
+    │   │   │                         : 'text-gray-600 hover:text-gray-800'
+    │   │   │                       }
+    │   │   │                     `}
+    │   │   │                   >
+    │   │   │                     Each Room Carpet Area
+    │   │   │                   </button>
+    │   │   │                 </div>
+    │   │   │               </div>
+    │   │   │
+    │   │   │               {/* Total Carpet Area Input */}
+    │   │   │               {areaOption === 'total' && (
+    │   │   │                 <div className="max-w-md mx-auto bg-white rounded-xl p-6 shadow-lg mb-12">
+    │   │   │                   <label className="block text-sm font-medium text-gray-700 mb-1">
+    │   │   │                     Total Carpet Area (sq. ft.)
+    │   │   │                   </label>
+    │   │   │                   <input
+    │   │   │                     type="number"
+    │   │   │                     value={totalCarpetArea}
+    │   │   │                     onChange={(e) => handleTotalAreaChange(e.target.value)}
+    │   │   │                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+    │   │   │                     placeholder="Enter total carpet area"
+    │   │   │                     min="0"
+    │   │   │                   />
+    │   │   │                 </div>
+    │   │   │               )}
+    │   │   │
+    │   │   │               {/* Room-specific Carpet Areas */}
+    │   │   │               {areaOption === 'rooms' && (
+    │   │   │                 <div className="space-y-6 mb-12">
+    │   │   │                   {rooms.map((room) => (
+    │   │   │                     <div key={room.id} className="bg-white rounded-xl p-6 shadow-lg">
+    │   │   │                       <div className="flex justify-between items-center mb-4">
+    │   │   │                         <h3 className="text-xl font-semibold text-gray-800">
+    │   │   │                           {room.name}
+    │   │   │                         </h3>
+    │   │   │                         {isCustom && (
+    │   │   │                           <button
+    │   │   │                             onClick={() => setRooms(rooms.filter(r => r.id !== room.id))}
+    │   │   │                             className="text-gray-400 hover:text-gray-600 transition-colors"
+    │   │   │                             aria-label={`Remove ${room.name}`}
+    │   │   │                           >
+    │   │   │                             <X className="w-5 h-5" />
+    │   │   │                           </button>
+    │   │   │                         )}
+    │   │   │                       </div>
+    │   │   │                       
+    │   │   │                       <div>
+    │   │   │                         <label className="block text-sm font-medium text-gray-700 mb-1">
+    │   │   │                           Carpet Area (sq. ft.)
+    │   │   │                         </label>
+    │   │   │                         <input
+    │   │   │                           type="number"
+    │   │   │                           value={room.carpetArea}
+    │   │   │                           onChange={(e) => handleCarpetAreaChange(room.id, e.target.value)}
+    │   │   │                           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+    │   │   │                           placeholder="Enter carpet area"
+    │   │   │                           min="0"
+    │   │   │                         />
+    │   │   │                       </div>
+    │   │   │                     </div>
+    │   │   │                   ))}
+    │   │   │                 </div>
+    │   │   │               )}
+    │   │   │             </>
+    │   │   │           ) : (
+    │   │   │             /* Villa Layout */
+    │   │   │             <div className="space-y-8 mb-12">
+    │   │   │               {floors.map((floor, index) => (
+    │   │   │                 <div key={floor.id} className="bg-white rounded-xl p-6 shadow-lg">
+    │   │   │                   <div className="flex justify-between items-center mb-6">
+    │   │   │                     <h3 className="text-2xl font-semibold text-gray-800">
+    │   │   │                       {floor.name}
+    │   │   │                     </h3>
+    │   │   │                     {index > 0 && (
+    │   │   │                       <button
+    │   │   │                         onClick={() => removeFloor(floor.id)}
+    │   │   │                         className="text-gray-400 hover:text-gray-600 transition-colors"
+    │   │   │                         aria-label={`Remove ${floor.name}`}
+    │   │   │                       >
+    │   │   │                         <X className="w-5 h-5" />
+    │   │   │                       </button>
+    │   │   │                     )}
+    │   │   │                   </div>
+    │   │   │
+    │   │   │                   <div className="mb-6">
+    │   │   │                     <label className="block text-sm font-medium text-gray-700 mb-1">
+    │   │   │                       Floor Carpet Area (sq. ft.)
+    │   │   │                     </label>
+    │   │   │                     <input
+    │   │   │                       type="number"
+    │   │   │                       value={floor.carpetArea}
+    │   │   │                       onChange={(e) => handleFloorCarpetAreaChange(floor.id, e.target.value)}
+    │   │   │                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+    │   │   │                       placeholder="Enter floor carpet area"
+    │   │   │                       min="0"
+    │   │   │                     />
+    │   │   │                   </div>
+    │   │   │
+    │   │   │                   <div className="space-y-4">
+    │   │   │                     <div className="flex justify-between items-center">
+    │   │   │                       <h4 className="text-lg font-medium text-gray-700">Rooms on this floor</h4>
+    │   │   │                       <div className="relative">
+    │   │   │                         <select
+    │   │   │                           className="appearance-none bg-gray-100 text-gray-700 py-2 px-4 pr-8 rounded-lg hover:bg-gray-200 transition-colors cursor-pointer"
+    │   │   │                           onChange={(e) => {
+    │   │   │                             const [id, name] = e.target.value.split('|');
+    │   │   │                             addRoomToFloor(floor.id, { id, name });
+    │   │   │                             e.target.value = '';
+    │   │   │                           }}
+    │   │   │                           value=""
+    │   │   │                         >
+    │   │   │                           <option value="">Add Room</option>
+    │   │   │                           {getAvailableRoomsForFloor(floor.id).map((room) => (
+    │   │   │                             <option key={room.id} value={`${room.id}|${room.name}`}>
+    │   │   │                               {room.name}
+    │   │   │                             </option>
+    │   │   │                           ))}
+    │   │   │                         </select>
+    │   │   │                         <Plus className="w-4 h-4 absolute right-2 top-1/2 transform -translate-y-1/2 pointer-events-none text-gray-500" />
+    │   │   │                       </div>
+    │   │   │                     </div>
+    │   │   │                     
+    │   │   │                     {floor.rooms.map((room) => (
+    │   │   │                       <div key={room.id} className="bg-gray-50 rounded-lg p-4">
+    │   │   │                         <div className="flex justify-between items-center mb-2">
+    │   │   │                           <h5 className="text-md font-medium text-gray-800">{room.name}</h5>
+    │   │   │                           <button
+    │   │   │                             onClick={() => removeRoomFromFloor(floor.id, room.id)}
+    │   │   │                             className="text-gray-400 hover:text-gray-600 transition-colors"
+    │   │   │                             aria-label={`Remove ${room.name}`}
+    │   │   │                           >
+    │   │   │                             <X className="w-5 h-5" />
+    │   │   │                           </button>
+    │   │   │                         </div>
+    │   │   │                         <div>
+    │   │   │                           <label className="block text-sm font-medium text-gray-700 mb-1">
+    │   │   │                             Room Carpet Area (sq. ft.)
+    │   │   │                           </label>
+    │   │   │                           <input
+    │   │   │                             type="number"
+    │   │   │                             value={room.carpetArea}
+    │   │   │                             onChange={(e) => handleRoomCarpetAreaChange(floor.id, room.id, e.target.value)}
+    │   │   │                             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+    │   │   │                             placeholder="Enter room carpet area"
+    │   │   │                             min="0"
+    │   │   │                           />
+    │   │   │                         </div>
+    │   │   │                       </div>
+    │   │   │                     ))}
+    │   │   │                   </div>
+    │   │   │                 </div>
+    │   │   │               ))}
+    │   │   │
+    │   │   │               <div className="text-center">
+    │   │   │                 <button
+    │   │   │                   onClick={addFloor}
+    │   │   │                   className="inline-flex items-center px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+    │   │   │                 >
+    │   │   │                   <Plus className="w-5 h-5 mr-2" />
+    │   │   │                   Add Floor
+    │   │   │                 </button>
+    │   │   │               </div>
+    │   │   │             </div>
+    │   │   │           )}
+    │   │   │
+    │   │   │           <div className="text-center">
+    │   │   │             <button
+    │   │   │               onClick={handleGetEstimate}
+    │   │   │               disabled={!isFormComplete()}
+    │   │   │               className={`
+    │   │   │                 px-8 py-3 rounded-full text-white font-medium transition-all duration-300
+    │   │   │                 ${
+    │   │   │                   isFormComplete()
+    │   │   │                     ? 'bg-blue-600 hover:bg-blue-700 shadow-lg hover:scale-105'
+    │   │   │                     : 'bg-gray-300 cursor-not-allowed'
+    │   │   │                 }
+    │   │   │               `}
+    │   │   │             >
+    │   │   │               Get Estimate
+    │   │   │             </button>
+    │   │   │           </div>
+    │   │   │         </main>
+    │   │   │       </Layout>
+    │   │   │     );
+    │   │   │   }
+    │   │   │
+    │   │   │   export default ResidentialLayoutPage;
+    │   │   │
+    │   │   ```
+    │   └── vite-env.d.ts
+    │       ```typescript
+    │       /// <reference types="vite/client" />
+    │       ```
+    ├── tailwind.config.js
+    │   ```javascript
+    │   /** @type {import('tailwindcss').Config} */
+    │   export default {
+    │     content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+    │     theme: {
+    │       extend: {},
+    │     },
+    │     plugins: [],
+    │   };
+    │   ```
+    ├── tsconfig.app.json
+    │   ```json
+    │   {
+    │     "compilerOptions": {
+    │       "target": "ES2020",
+    │       "useDefineForClassFields": true,
+    │       "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    │       "module": "ESNext",
+    │       "skipLibCheck": true,
+    │
+    │       /* Bundler mode */
+    │       "moduleResolution": "bundler",
+    │       "allowImportingTsExtensions": true,
+    │       "isolatedModules": true,
+    │       "moduleDetection": "force",
+    │       "noEmit": true,
+    │       "jsx": "react-jsx",
+    │
+    │       /* Linting */
+    │       "strict": true,
+    │       "noUnusedLocals": true,
+    │       "noUnusedParameters": true,
+    │       "noFallthroughCasesInSwitch": true
+    │     },
+    │     "include": ["src"]
+    │   }
+    │   ```
+    ├── tsconfig.json
+    │   ```json
+    │   {
+    │     "files": [],
+    │     "references": [
+    │       { "path": "./tsconfig.app.json" },
+    │       { "path": "./tsconfig.node.json" }
+    │     ]
+    │   }
+    │   ```
+    ├── tsconfig.node.json
+    │   ```json
+    │   {
+    │     "compilerOptions": {
+    │       "target": "ES2022",
+    │       "lib": ["ES2023"],
+    │       "module": "ESNext",
+    │       "skipLibCheck": true,
+    │
+    │       /* Bundler mode */
+    │       "moduleResolution": "bundler",
+    │       "allowImportingTsExtensions": true,
+    │       "isolatedModules": true,
+    │       "moduleDetection": "force",
+    │       "noEmit": true,
+    │
+    │       /* Linting */
+    │       "strict": true,
+    │       "noUnusedLocals": true,
+    │       "noUnusedParameters": true,
+    │       "noFallthroughCasesInSwitch": true
+    │     },
+    │     "include": ["vite.config.ts"]
+    │   }
+    │   ```
+    └── vite.config.ts
+        ```typescript
+        import { defineConfig } from 'vite';
+        import react from '@vitejs/plugin-react';
+
+        // https://vitejs.dev/config/
+        export default defineConfig({
+          plugins: [react()],
+          optimizeDeps: {
+            exclude: ['lucide-react'],
+          },
+        });
+        ```
